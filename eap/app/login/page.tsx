@@ -4,13 +4,22 @@ import { useState, useEffect } from 'react';
 import "../styles/loginStyles.css";
 
 import { encryptDataWithOAEP } from '@/utils/encryption';
-import { fetchPublicKey, submitEncryptedLogin } from '@/api/auth';
+import { fetchPublicKey, submitEncryptedLogin, submitEncryptedRegistration } from '@/api/auth';
 
 export default function LoginPage() {
     const [isLoginMode, setIsLoginMode] = useState<boolean>(true);
     const [publicKey, setPublicKey] = useState<string>("");
+    
+    // States for logging in
     const [username, setUserName] = useState<string>("");
     const [password, setPassword] = useState<string>("");
+
+    // States for registration
+    const [fullname, setFullname] = useState<string>("");
+    const [regUsername, setRegUsername] = useState<string>("");
+    const [email, setEmail] = useState<string>("");
+    const [regPassword, setRegPassword] = useState<string>("");
+    const [regConfirmPassword, setRegConfirmPassword] = useState<string>("");
 
     // Get the public key from the server
     // to prepare encryption of user data
@@ -28,11 +37,26 @@ export default function LoginPage() {
 
     // Handle logging in
     const handleUserLogin = async () => {
+        // Validate username and password first
+
         const encryptedUsername = await encryptDataWithOAEP(publicKey, username);
         const encryptedPassword = await encryptDataWithOAEP(publicKey, password);
         const encryptedData = {username: encryptedUsername, password: encryptedPassword};
         const result = await submitEncryptedLogin(encryptedData);
     };
+
+    // Handle registration
+    const handleUserRegistration = async () => {
+        // Validate username and password first
+
+        const encryptedFullname = await encryptDataWithOAEP(publicKey, fullname);
+        const encryptedEmail = await encryptDataWithOAEP(publicKey, email);
+        const encryptedUsername = await encryptDataWithOAEP(publicKey, regUsername);
+        const encryptedPassword = await encryptDataWithOAEP(publicKey, regPassword);
+        const encryptedData = { fullname: encryptedFullname, username: encryptedUsername, email: encryptedEmail, password: encryptedPassword };
+        console.log(encryptedData);
+        const result = await submitEncryptedRegistration(encryptedData);
+    }
     
 
     return (
@@ -59,25 +83,25 @@ export default function LoginPage() {
                         <div>
                             <div className="mb-4">
                                 <label className="input-label">Full Name</label>
-                                <input className="input-field" type="text" />
+                                <input className="input-field" type="text" onChange={e => setFullname(e.target.value)} />
                             </div>
                             <div className="mb-4">
                                 <label className="input-label">Choose a username</label>
-                                <input className="input-field" type="text" />
+                                <input className="input-field" type="text" onChange={e => setRegUsername(e.target.value)} />
                             </div>
                             <div className="mb-4">
                                 <label className="input-label">Input your email</label>
-                                <input className="input-field" type="email" />
+                                <input className="input-field" type="email" onChange={e => setEmail(e.target.value)} />
                             </div>
                             <div className="mb-4">
                                 <label className="input-label">Set a password</label>
-                                <input className="input-field" type="password" />
+                                <input className="input-field" type="password" onChange={e => setRegPassword(e.target.value)} />
                             </div>
                             <div className="mb-4">
                                 <label className="input-label">Confirm password</label>
-                                <input className="input-field" type="password" />
+                                <input className="input-field" type="password" onChange={e => setRegConfirmPassword(e.target.value)} />
                             </div>
-                            <button className="register-button" type="button">Register</button>
+                            <button className="register-button" type="button" onClick={handleUserRegistration}>Register</button>
                             <button className="move-to-login-button" type="button" onClick={handleToggleLoginMode}>Return to login</button>
                         </div>
 

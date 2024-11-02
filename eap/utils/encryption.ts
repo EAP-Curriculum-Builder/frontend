@@ -22,7 +22,6 @@ export const encryptDataWithOAEP = async(publicKey: string, data: string): Promi
 
         // Encrypt the data
         const encodedData = new TextEncoder().encode(data);
-        console.log(encodedData);
         const encrypted = await crypto.subtle.encrypt(
             { name: 'RSA-OAEP' },
             cryptoKey,
