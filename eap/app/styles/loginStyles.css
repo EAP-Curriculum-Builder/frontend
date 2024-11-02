@@ -28,8 +28,18 @@
     transition duration-200;
 }
 
+.login-button-disabled, .register-button-disabled {
+    @apply w-full bg-blue-500 text-white rounded-lg py-2 mt-4
+    cursor-not-allowed
+    transition duration-200;
+}
+
 .move-to-register-button, .move-to-login-button {
     @apply w-full bg-gray-200 text-gray-800 rounded-lg py-2 mt-2
     hover:bg-gray-300
     transition duration-200;
+}
+
+.error-message {
+    @apply text-red-500 font-light transition duration-200;
 }
