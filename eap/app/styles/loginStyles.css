@@ -22,13 +22,13 @@
     @apply border border-gray-300 rounded-lg p-2 w-full;
 }
 
-.login-button {
+.login-button, .register-button {
     @apply w-full bg-blue-500 text-white rounded-lg py-2 mt-4 
     hover:bg-blue-600 
     transition duration-200;
 }
 
-.move-to-register-button {
+.move-to-register-button, .move-to-login-button {
     @apply w-full bg-gray-200 text-gray-800 rounded-lg py-2 mt-2
     hover:bg-gray-300
     transition duration-200;
