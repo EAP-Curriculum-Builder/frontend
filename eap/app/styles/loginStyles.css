@@ -1,3 +1,35 @@
 .login-page {
     @apply flex flex-col items-center justify-center min-h-screen bg-gray-100;
 }
+
+.login-form {
+    @apply bg-white p-8 rounded-lg shadow-md w-full max-w-sm;
+}
+
+.login-panel {
+    @apply flex justify-center mb-6;
+}
+
+.login-title {
+    @apply text-2xl font-bold text-gray-700;
+}
+
+.input-label {
+    @apply block text-sm font-medium text-gray-600;
+}
+
+.input-field {
+    @apply border border-gray-300 rounded-lg p-2 w-full;
+}
+
+.login-button {
+    @apply w-full bg-blue-500 text-white rounded-lg py-2 mt-4 
+    hover:bg-blue-600 
+    transition duration-200;
+}
+
+.move-to-register-button {
+    @apply w-full bg-gray-200 text-gray-800 rounded-lg py-2 mt-2
+    hover:bg-gray-300
+    transition duration-200;
+}
