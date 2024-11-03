@@ -5,11 +5,9 @@ import "../styles/loginStyles.css";
 
 // encryption and validation
 import { encryptDataWithOAEP } from '@/utils/encryption';
-import { fetchPublicKey, submitEncryptedLogin, submitEncryptedRegistration } from '@/api/auth';
+import { fetchPublicKey, registerUserThroughFirebase, submitEncryptedLogin, submitEncryptedRegistration } from '@/api/auth';
 import useValidation from '../hooks/useValidation';
 
-// toast popups
-import { toast } from 'react-toastify';
 
 interface RegistrationFormData {
     fullname: string;
@@ -115,15 +113,28 @@ export default function LoginPage() {
 
     // Handle registration
     const handleUserRegistration = async () => {
-        // Validate username and password first
+        
+        // Send to firebase for registration
+        const { token, uid } = await registerUserThroughFirebase(
+            registrationFormData.email,
+            registrationFormData.regPassword,
+            registrationFormData.regUsername
+        );
 
         const encryptedFullname = await encryptDataWithOAEP(publicKey, registrationFormData.fullname);
-        const encryptedEmail = await encryptDataWithOAEP(publicKey, registrationFormData.email);
         const encryptedUsername = await encryptDataWithOAEP(publicKey, registrationFormData.regUsername);
-        const encryptedPassword = await encryptDataWithOAEP(publicKey, registrationFormData.regPassword);
-        const encryptedData = { fullname: encryptedFullname, username: encryptedUsername, email: encryptedEmail, password: encryptedPassword };
-        console.log(encryptedData);
-        const result = await submitEncryptedRegistration(encryptedData);
+        const encryptedUID = await encryptDataWithOAEP(publicKey, uid);
+        const encryptedData = { fullname: encryptedFullname, username: encryptedUsername, uid: encryptedUID };
+        const result = await submitEncryptedRegistration(encryptedData, token);
+        console.log(result);
+
+        // const encryptedFullname = await encryptDataWithOAEP(publicKey, registrationFormData.fullname);
+        // const encryptedEmail = await encryptDataWithOAEP(publicKey, registrationFormData.email);
+        // const encryptedUsername = await encryptDataWithOAEP(publicKey, registrationFormData.regUsername);
+        // const encryptedPassword = await encryptDataWithOAEP(publicKey, registrationFormData.regPassword);
+        // const encryptedData = { fullname: encryptedFullname, username: encryptedUsername, email: encryptedEmail, password: encryptedPassword };
+        // console.log(encryptedData);
+        // const result = await submitEncryptedRegistration(encryptedData);
     }
     
 
