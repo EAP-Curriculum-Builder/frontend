@@ -9,12 +9,12 @@ interface Errors {
 }
 
 interface LoginErrors {
-    username?: string;
+    email?: string;
     password?: string;
 }
 
 type RegistrationFieldName = 'fullname' | 'regUsername' | 'email' | 'regPassword' | 'confirmPassword';
-type LoginFieldName = 'username' | 'password';
+type LoginFieldName = 'email' | 'password';
 
 interface AdditionalValues {
     regPassword?: string;
@@ -94,13 +94,13 @@ const useValidation = (initialErrors: Errors = {}, initialLoginErrors: LoginErro
         const newLoginErrors: LoginErrors = { ...loginErrors };
 
         switch (name) {
-            case 'username':
+            case 'email':
                 if (!value.trim()) {
-                    newLoginErrors.username = "Username is required";
-                } else if (value.trim().length < 6) {
-                    newLoginErrors.username = "Username must be 6 characters or more";
+                    newLoginErrors.email = 'Email is required';
+                } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+                    newLoginErrors.email = 'Email is invalid';
                 } else {
-                    delete newLoginErrors.username;
+                    delete newLoginErrors.email;
                 }
                 break;
             case 'password':

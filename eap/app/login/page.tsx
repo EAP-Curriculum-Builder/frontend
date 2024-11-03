@@ -2,10 +2,11 @@
 
 import { useState, useEffect, ChangeEvent, FocusEvent } from 'react';
 import "../styles/loginStyles.css";
+import { redirect } from 'next/navigation';
 
 // encryption and validation
 import { encryptDataWithOAEP } from '@/utils/encryption';
-import { fetchPublicKeyAndCSRF, registerUserThroughFirebase, submitEncryptedLogin, submitEncryptedRegistration } from '@/api/auth';
+import { fetchPublicKeyAndCSRF, registerUserThroughFirebase, loginThroughFirebase, submitEncryptedLogin, submitEncryptedRegistration } from '@/api/auth';
 import useValidation from '../hooks/useValidation';
 
 
@@ -18,7 +19,7 @@ interface RegistrationFormData {
 }
 
 interface LoginFormData {
-    username: string;
+    email: string;
     password: string;
 }
 
@@ -42,7 +43,7 @@ export default function LoginPage() {
     
     // States for logging in fields
     const [loginFormData, setLoginFormData] = useState<LoginFormData>({
-        username: '',
+        email: '',
         password: ''
     });
 
@@ -91,7 +92,7 @@ export default function LoginPage() {
     const handleToggleLoginMode = () => {
         setIsLoginMode(!isLoginMode);
         resetErrors();
-        setLoginFormData({username: '', password: ''});
+        setLoginFormData({email: '', password: ''});
         setRegistrationFormData({
             fullname: '',
             regUsername: '',
@@ -103,12 +104,21 @@ export default function LoginPage() {
 
     // Handle logging in
     const handleUserLogin = async () => {
-        // Validate username and password first
+        
+        // Send to firebase for login
+        const { token, uid } = await loginThroughFirebase (
+            loginFormData.email,
+            loginFormData.password
+        );
 
-        const encryptedUsername = await encryptDataWithOAEP(publicKey, loginFormData.username);
-        const encryptedPassword = await encryptDataWithOAEP(publicKey, loginFormData.password);
-        const encryptedData = {username: encryptedUsername, password: encryptedPassword};
-        const result = await submitEncryptedLogin(encryptedData);
+        const encryptedUID = await encryptDataWithOAEP(publicKey, uid);
+        const encryptedData = { uid: encryptedUID };
+        const result = await submitEncryptedLogin(encryptedData, token);
+
+        if (result === true) {
+            localStorage.setItem("isLoggedIn", "");
+            redirect("/home");
+        }
     };
 
     // Handle registration
@@ -126,18 +136,13 @@ export default function LoginPage() {
         const encryptedUID = await encryptDataWithOAEP(publicKey, uid);
         const encryptedData = { fullname: encryptedFullname, username: encryptedUsername, uid: encryptedUID };
         const result = await submitEncryptedRegistration(encryptedData, token);
-        console.log(result);
 
-        // const encryptedFullname = await encryptDataWithOAEP(publicKey, registrationFormData.fullname);
-        // const encryptedEmail = await encryptDataWithOAEP(publicKey, registrationFormData.email);
-        // const encryptedUsername = await encryptDataWithOAEP(publicKey, registrationFormData.regUsername);
-        // const encryptedPassword = await encryptDataWithOAEP(publicKey, registrationFormData.regPassword);
-        // const encryptedData = { fullname: encryptedFullname, username: encryptedUsername, email: encryptedEmail, password: encryptedPassword };
-        // console.log(encryptedData);
-        // const result = await submitEncryptedRegistration(encryptedData);
+        if (result === true) {
+            localStorage.setItem("isLoggedIn", "");
+            redirect("/home");
+        }
     }
     
-
     return (
         <div className="login-page">
             <form className="login-form">
@@ -148,16 +153,16 @@ export default function LoginPage() {
                     isLoginMode ? (
                         <div>
                             <div className="mb-4">
-                                <label className="input-label">Username</label>
+                                <label className="input-label">Email</label>
                                 <input 
                                     className="input-field"
-                                    type="text"
-                                    name="username"
-                                    value={loginFormData.username}
+                                    type="email"
+                                    name="email"
+                                    value={loginFormData.email}
                                     onChange={handleLoginChange}
                                     onBlur={handleLoginBlur} 
                                 />
-                                {loginErrors.username && <span className="error-message">{loginErrors.username}</span>}
+                                {loginErrors.email && <span className="error-message">{loginErrors.email}</span>}
                             </div>
                             <div className="mb-4">
                                 <label className="input-label">Password</label>
