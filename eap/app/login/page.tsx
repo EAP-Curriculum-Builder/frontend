@@ -5,7 +5,7 @@ import "../styles/loginStyles.css";
 
 // encryption and validation
 import { encryptDataWithOAEP } from '@/utils/encryption';
-import { fetchPublicKey, registerUserThroughFirebase, submitEncryptedLogin, submitEncryptedRegistration } from '@/api/auth';
+import { fetchPublicKeyAndCSRF, registerUserThroughFirebase, submitEncryptedLogin, submitEncryptedRegistration } from '@/api/auth';
 import useValidation from '../hooks/useValidation';
 
 
@@ -28,7 +28,7 @@ export default function LoginPage() {
     // to prepare encryption of user data
     useEffect(() => {
         const fetchAndSetPublicKey = async() => {
-           const fetchedPublicKey = await fetchPublicKey();
+           const fetchedPublicKey = await fetchPublicKeyAndCSRF();
            setPublicKey(fetchedPublicKey);
         };
         fetchAndSetPublicKey();
