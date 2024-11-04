@@ -100,7 +100,6 @@ export const submitEncryptedLogin = async (
     token: string
 ):Promise<boolean> => {
     const csrfToken = getCSRFCookie('csrfToken');
-    console.log(csrfToken);
 
     const headers: Record<string, string> = {
         'Content-Type': 'application/json',
@@ -110,7 +109,6 @@ export const submitEncryptedLogin = async (
     if (csrfToken) {
         headers['X-CSRF-Token'] = csrfToken;
     }
-    console.log(headers);
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/login`, {
             method: 'POST',
@@ -118,6 +116,7 @@ export const submitEncryptedLogin = async (
             body: JSON.stringify(encryptedData),
             credentials: 'include'
         });
+        console.log(await response.json());
         return response.ok;
     } catch (error) {
         console.error("Error submitting login:", error);

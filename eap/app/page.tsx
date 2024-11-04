@@ -32,6 +32,5 @@ export default function Index() {
     }
   }, [router]);
 
-  //redirect('/login');
   return null;
 }
