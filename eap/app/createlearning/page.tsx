@@ -1,13 +1,13 @@
 "use client"
 import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+//import { useRouter } from 'next/navigation';
 
 import { fetchLearningGenres } from '@/api/createLearning';
 import Navbar from '../components/Navbar';
 import '../styles/createLearningStyles.css';
 
 const CreateLearning = () => {
-    const router = useRouter();
+    //const router = useRouter();
 
     useEffect(() => {
         const result = fetchLearningGenres();
