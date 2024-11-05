@@ -1,0 +1,23 @@
+.home-page-container {
+    @apply flex flex-col;
+}
+
+.top-row {
+    @apply flex flex-row ml-2 ;
+}
+
+.learning-paths-row {
+    @apply flex flex-col ml-2 mt-5;
+}
+
+.actions-section {
+    @apply flex flex-row ml-2;
+}
+
+.actions-items {
+    @apply flex flex-col ml-6;
+}
+
+.action-item {
+    @apply font-extralight text-xl
+}
