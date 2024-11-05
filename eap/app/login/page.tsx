@@ -3,6 +3,7 @@
 import { useState, useEffect, ChangeEvent, FocusEvent } from 'react';
 import "../styles/loginStyles.css";
 import { redirect } from 'next/navigation';
+import { useUser } from '../context/UserContext';
 
 // encryption and validation
 import { encryptDataWithOAEP } from '@/utils/encryption';
@@ -103,6 +104,8 @@ export default function LoginPage() {
     };
 
     // Handle logging in
+
+    const { setUser } = useUser();
     const handleUserLogin = async () => {
         
         // Send to firebase for login
@@ -114,11 +117,11 @@ export default function LoginPage() {
         const encryptedUID = await encryptDataWithOAEP(publicKey, uid);
         const encryptedData = { uid: encryptedUID };
         const result = await submitEncryptedLogin(encryptedData, token);
+        console.log(result);
+        setUser({ username: result.username, role:result.role, uid:result.uid });
 
-        if (result === true) {
-            localStorage.setItem("isLoggedIn", "");
-            redirect("/home");
-        }
+        localStorage.setItem("isLoggedIn", "");
+        redirect("/home");
     };
 
     // Handle registration

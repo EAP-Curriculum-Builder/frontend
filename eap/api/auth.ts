@@ -116,8 +116,8 @@ export const submitEncryptedLogin = async (
             body: JSON.stringify(encryptedData),
             credentials: 'include'
         });
-        console.log(await response.json());
-        return response.ok;
+        const result = await response.json();
+        return result;
     } catch (error) {
         console.error("Error submitting login:", error);
         return false;
