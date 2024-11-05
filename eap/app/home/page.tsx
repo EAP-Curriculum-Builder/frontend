@@ -4,7 +4,6 @@ import { submitLogoutRequest } from '@/api/auth';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { verifySession } from '@/api/auth';
-import { fetchLearningGenres } from '@/api/createLearning';
 
 import Navbar from '../components/Navbar';
 import '../styles/homePageStyles.css';
@@ -44,14 +43,13 @@ const Home = () => {
     const createLearning = async () => {
         // Place a route here and then call this
         // function in the next page
-        const result = fetchLearningGenres();
-        console.log(result);
+        router.replace('/createlearning')
     }
 
     return (
         <div>
             <div>
-                <Navbar />
+            <Navbar topMessage='Welcome home' page='home' />
             </div>
             <div className="home-page-container">
                 <div className="top-row">
