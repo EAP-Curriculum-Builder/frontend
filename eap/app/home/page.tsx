@@ -49,7 +49,7 @@ const Home = () => {
     return (
         <div>
             <div>
-            <Navbar topMessage='Welcome home' page='home' />
+                <Navbar topMessage='Welcome home' page='home' />
             </div>
             <div className="home-page-container">
                 <div className="top-row">

@@ -27,6 +27,10 @@ const Navbar: React.FC<NavbarProps> = ({ topMessage, page }) => {
         if (page === 'createLearning') {
             setMessage(topMessage);
         }
+
+        if (page === 'CreateTopic') {
+            setMessage(topMessage);
+        }
     }
 
     return (
