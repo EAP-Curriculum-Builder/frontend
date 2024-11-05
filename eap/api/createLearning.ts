@@ -1,9 +1,5 @@
+import { Genre, Topic } from '@/types/appTypes';
 
-// Validates user and moves user to next page
-interface Genre {
-    id: number;
-    genre: string;
-}
 export async function fetchLearningGenres(): Promise<Genre[]> {
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/create/learning`, {
@@ -14,18 +10,17 @@ export async function fetchLearningGenres(): Promise<Genre[]> {
         return data;
     } catch (error) {
         console.error("Error fetching the learning genres:", error);
-        return [{id: 0, genre: ''}];
+        return [{id: 0, type: '', genre: ''}];
     }
 }
 
-interface Topic {
-    id: number;
-    topic: string;
-}
 export async function fetchAssociatedTopics(genre:Genre): Promise<Topic[]>{
     try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/api/create/topics`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/create/topics`, {
             method: 'POST',
+            headers: {
+                'Content-Type':'application/json',
+            },
             credentials: 'include',
             body: JSON.stringify(genre)
         });
@@ -34,6 +29,6 @@ export async function fetchAssociatedTopics(genre:Genre): Promise<Topic[]>{
         return data;
     } catch (error) {
         console.error("Error fetching the associated topics:", error);
-        return [{id: 0, topic: ''}];
+        return [{id: 0, topic: '', theme: ''}];
     }
 }
