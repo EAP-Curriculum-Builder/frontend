@@ -1,7 +1,7 @@
 export const getCSRFCookie = (cookieName: string): string | undefined => {
     
     const value = `; ${document.cookie}`;
-    console.log(value);
+    console.log("The csrfCookie:", value);
     const cookies = value.split(`; ${cookieName}=`);
     if (cookies.length === 2) {
         const token = cookies[1].split(';')[0];

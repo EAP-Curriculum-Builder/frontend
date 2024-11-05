@@ -11,7 +11,6 @@ export async function fetchPublicKeyAndCSRF(): Promise<string> {
             credentials: "include"
         });
         const data = await response.json();
-        console.log(data.publicKey);
         return data.publicKey;
     } catch (error) {
         console.error("Error fetching public key:", error);
