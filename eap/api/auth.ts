@@ -95,10 +95,17 @@ interface LoginData {
     uid: string;
 }
 
+interface LoginResult {
+    message: string;
+    username: string;
+    role: string;
+    uid: string;
+}
+
 export const submitEncryptedLogin = async (
     encryptedData: LoginData,
     token: string
-):Promise<boolean> => {
+):Promise<LoginResult> => {
     const csrfToken = getCSRFCookie('csrfToken');
 
     const headers: Record<string, string> = {
@@ -120,7 +127,12 @@ export const submitEncryptedLogin = async (
         return result;
     } catch (error) {
         console.error("Error submitting login:", error);
-        return false;
+        return {
+            message: "There was an error logging in!",
+            username: '',
+            role: '',
+            uid: ''
+        };
     }
 }
 

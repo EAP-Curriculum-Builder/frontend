@@ -24,6 +24,13 @@ interface LoginFormData {
     password: string;
 }
 
+interface LoginResult {
+    message: string;
+    username: string;
+    role: string;
+    uid: string;
+}
+
 export default function LoginPage() {
 
     // Get the public key from the server
@@ -116,8 +123,7 @@ export default function LoginPage() {
 
         const encryptedUID = await encryptDataWithOAEP(publicKey, uid);
         const encryptedData = { uid: encryptedUID };
-        const result = await submitEncryptedLogin(encryptedData, token);
-        console.log(result);
+        const result = await submitEncryptedLogin(encryptedData, token) as LoginResult;
         setUser({ username: result.username, role:result.role, uid:result.uid });
 
         localStorage.setItem("isLoggedIn", "");
