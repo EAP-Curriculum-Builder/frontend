@@ -1,0 +1,26 @@
+
+
+/* GENRES COMPONENT */
+.create-learning-container {
+    @apply grid grid-cols-3 justify-items-center items-center mt-10
+}
+
+.genre-item {
+    @apply rounded-full w-32 h-32 md:w-48 md:h-48 lg:w-64 lg:h-64 xl:w-72 xl:h-72
+    border-gray-300 border-[1px]
+    flex items-center justify-center
+    overflow-hidden relative
+    shadow-xl hover:shadow-md cursor-pointer
+}
+
+.select-a-genre-icon {
+    @apply w-12 h-12 md:w-16 md:h-16 lg:w-32 lg:h-32 object-cover text-orange-100
+}
+
+.select-a-genre-selector-text {
+    @apply absolute md:text-2xl lg:text-3xl xl:text-4xl font-extralight
+}
+
+.genre-type {
+    @apply text-center mt-2 mb-6 p-6 lg:text-xl xl:text-3xl
+}
