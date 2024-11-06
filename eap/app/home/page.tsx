@@ -3,7 +3,11 @@
 import { submitLogoutRequest } from '@/api/auth';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+import { useUser } from '../context/UserContext';
 import { verifySession } from '@/api/auth';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faImage, faIdCard, faBell, faArrowRight, faBezierCurve, faTrophy } from '@fortawesome/free-solid-svg-icons';
 
 import Navbar from '../components/Navbar';
 import '../styles/homePageStyles.css';
@@ -12,6 +16,7 @@ import '../styles/homePageStyles.css';
 const Home = () => {
 
     const router = useRouter();
+    const { user } = useUser();
 
     // Verify the user's session
     useEffect(() => {
@@ -54,17 +59,27 @@ const Home = () => {
             <div className="home-page-container">
                 <div className="top-row">
                     <div className="profile-section">
-                        <p>This bit is all about you</p>
+                        <FontAwesomeIcon icon={faImage} className='profile-pic' />
                     </div>
 
                     <div className="actions-section">
                         <div className="profile-actions">
                             <div className="action-items">
                                 <div className="action-item">
-                                    do something with your profile
+                                    <div className='font-icon'>
+                                        <FontAwesomeIcon icon={faIdCard} className='profile-edit-item' />
+                                    </div>
+                                    <div className='action-info'>
+                                        Update your details
+                                    </div>
                                 </div>
                                 <div className="action-item">
-                                    do something with your profile
+                                    <div className='font-icon'>
+                                        <FontAwesomeIcon icon={faBell} className='profile-edit-item' />
+                                    </div>
+                                    <div className='action-info'>
+                                        Contact us
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -72,13 +87,28 @@ const Home = () => {
                         <div className="learning-actions">
                             <div className="actions-items">
                                 <div className="action-item">
-                                    <button className="logout-button" type="button" onClick={logout}>Logout</button>
+                                    <div className='font-icon'>
+                                        <FontAwesomeIcon icon={faArrowRight} className='use-app-item' />
+                                    </div>
+                                    <div className='action-info' onClick={logout}>
+                                        Logout
+                                    </div>
                                 </div>
                                 <div className="action-item">
-                                    <p className="select-path" onClick={createLearning}>Select a learning path</p>
+                                    <div className='font-icon'>
+                                        <FontAwesomeIcon icon={faBezierCurve} className='use-app-item' />
+                                    </div>
+                                    <div className='action-info'>
+                                        Select a learning path
+                                    </div>
                                 </div>
                                 <div className="action-item">
-                                    <p>See your achievements</p>
+                                <div className='font-icon'>
+                                        <FontAwesomeIcon icon={faTrophy} className='use-app-item' />
+                                    </div>
+                                    <div className='action-info'>
+                                        Your achievements
+                                    </div>
                                 </div>
                             </div>
                         </div>
