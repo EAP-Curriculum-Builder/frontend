@@ -20,7 +20,7 @@ const Themes: React.FC<ThemesProps> = ({ topics, handleSelectTopic }) => {
                 acc[theme] = { theme, topics: [] };
             }
 
-            acc[theme].topics.push({ id, topic });
+            acc[theme].topics.push({ id, topic, theme });
 
             return acc;
         }, {});
@@ -28,8 +28,8 @@ const Themes: React.FC<ThemesProps> = ({ topics, handleSelectTopic }) => {
         return Object.values(grouped);
     }
 
-    const handleTopicClick = (topicId: number) => {
-        handleSelectTopic(topicId);
+    const handleTopicClick = (topic: Topic) => {
+        handleSelectTopic(topic);
     }
 
     return(
@@ -41,7 +41,7 @@ const Themes: React.FC<ThemesProps> = ({ topics, handleSelectTopic }) => {
                     </div>
                     <div className='topics-display'>
                         {groupedTopic.topics.map((atopic) =>(
-                            <div className='topic-display' key={atopic.id} onClick={() => handleTopicClick(atopic.id)}>
+                            <div className='topic-display' key={atopic.id} onClick={() => handleTopicClick(atopic)}>
                                 {atopic.topic}
                             </div>
                         ))}

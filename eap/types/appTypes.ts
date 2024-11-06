@@ -29,6 +29,7 @@ export interface GroupedTopic {
     topics: {
         id: number;
         topic: string;
+        theme: string;
     }[];
 }
 
@@ -39,5 +40,13 @@ export interface GenreComponentProps {
 
 export interface ThemesProps {
     topics: Topic[];
-    handleSelectTopic: (topicId: number) => void;
+    handleSelectTopic: (topic: Topic) => void;
+}
+
+export interface PreparationBarProps {
+    genreIsSelected: boolean;
+    selectedGenre: Genre | undefined;
+    topicIsSelected: boolean;
+    selectedTopic: Topic | undefined;
+    handleStartLearning: () => void;
 }

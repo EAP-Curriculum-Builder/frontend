@@ -1,6 +1,6 @@
 "use client"
 import { useEffect, useState } from 'react';
-//import { useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 import { fetchLearningGenres, fetchAssociatedTopics } from '@/api/createLearning';
 import Navbar from '../components/Navbar';
@@ -12,23 +12,19 @@ import '../styles/createLearningStyles.css';
 import { Genre, Topic } from '@/types/appTypes';
 
 const CreateLearning = () => {
-    //const router = useRouter();
+    const router = useRouter();
 
     // Store the learning genres and topics data from the database
     const [learningGenres, setLearningGenres] = useState<Genre[]>([]);
     const [topics, setTopics] = useState<Topic[]>([]);
 
     // Keeps state for the PreparationBar component
-    const [genreSelected, setGenreSelected] = useState<boolean>(false);
-    const [topicSelected, setTopicSelected] = useState<boolean>(false);
+    const [genreIsSelected, setGenreIsSelected] = useState<boolean>(false);
+    const [topicIsSelected, setTopicIsSelected] = useState<boolean>(false);
 
-    // Keep the genre and topics selected by the user
-    const [selectedGenreId, setSelectedGenreId] = useState<number | undefined>();
-    const [selectedTopicId, setSelectedTopicId] = useState<number | undefined>();
-    console.log(selectedGenreId);
-    console.log(selectedTopicId);
-    console.log(genreSelected);
-    console.log(topicSelected);
+    // Keep the genre and topic data selected by the user
+    const [selectedGenre, setSelectedGenre] = useState<Genre>();
+    const [selectedTopic, setSelectedTopic] = useState<Topic>();
 
     // Get the learning genres on entry to the page
     useEffect(() => {
@@ -47,24 +43,24 @@ const CreateLearning = () => {
     const handleFetchTopics = async (genre: Genre) => {
         try {
             const result = await fetchAssociatedTopics(genre);
-            console.log(result);
             setTopics(result);
-            console.log(topics);
-            setGenreSelected(true);
-            setSelectedGenreId(genre.id);
+            setGenreIsSelected(true);
+            setSelectedGenre(genre);
         } catch (error) {
             console.error("Error fetching associated topics:", error);
         }
     };
 
-    const handleSelectTopic = (topicId: number) => {
-        setSelectedTopicId(topicId);
-        setTopicSelected(true);
+    const handleSelectTopic = (topic: Topic) => {
+        setSelectedTopic(topic);
+        setTopicIsSelected(true);
     }
 
-    // const handleGenreClick = (selectedGenre: Genre) => {
-    //     //router.push(`/createtopic?genreId=${selectedGenre.id}&genreName=${selectedGenre.genre}`);
-    // }
+    const handleStartLearning = () => {
+        const genreParam = encodeURIComponent(JSON.stringify(selectedGenre));
+        const topicParam = encodeURIComponent(JSON.stringify(selectedTopic));
+        router.push(`/createlearningpath?genre=${genreParam}&topic=${topicParam}`);
+     }
 
     return (
         <div>
@@ -78,7 +74,7 @@ const CreateLearning = () => {
                 <Themes topics={topics} handleSelectTopic={handleSelectTopic} />
             </div>
             <div>
-                <PreparationBar />
+                <PreparationBar genreIsSelected={genreIsSelected} selectedGenre={selectedGenre} topicIsSelected={topicIsSelected} selectedTopic={selectedTopic} handleStartLearning={handleStartLearning}  />
             </div>
         </div>
     );
