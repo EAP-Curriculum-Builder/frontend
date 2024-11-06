@@ -2,12 +2,12 @@
 
 import { submitLogoutRequest } from '@/api/auth';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useUser } from '../context/UserContext';
 import { verifySession } from '@/api/auth';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faImage, faIdCard, faBell, faArrowRight, faBezierCurve, faTrophy } from '@fortawesome/free-solid-svg-icons';
+import { faImage, faIdCard, faBell, faArrowRight, faBezierCurve, faTrophy, faArrowUp, faArrowDown } from '@fortawesome/free-solid-svg-icons';
 
 import Navbar from '../components/Navbar';
 import '../styles/homePageStyles.css';
@@ -51,13 +51,24 @@ const Home = () => {
         router.replace('/createlearning')
     }
 
+    // For styles - controlling nav visibility
+    const [isVisible, setIsVisible] = useState(false);
+    const handleNavToggle = () => {
+        setIsVisible((prev) => !prev);
+    };
+
+    useEffect(() => {
+        setIsVisible(true);
+    }, [])
+
     return (
         <div>
             <div>
                 <Navbar topMessage='Welcome home' page='home' />
             </div>
-            <div className="home-page-container">
-                <div className="top-row">
+            <div className={`home-page-container ${isVisible ? 'translate-y-0' : '-translate-y-96'}
+                                transition-transform duration-1000 ease-in-out`}>
+                <div className={`top-row `}>
                     <div className="profile-section">
                         <FontAwesomeIcon icon={faImage} className='profile-pic' />
                     </div>
@@ -95,7 +106,7 @@ const Home = () => {
                                     </div>
                                 </div>
                                 <div className="action-item">
-                                    <div className='font-icon'>
+                                    <div className='font-icon' onClick={createLearning}>
                                         <FontAwesomeIcon icon={faBezierCurve} className='use-app-item' />
                                     </div>
                                     <div className='action-info'>
@@ -113,7 +124,9 @@ const Home = () => {
                             </div>
                         </div>
                     </div>
-
+                </div>
+                <div className='control-nav-section'>
+                    <FontAwesomeIcon icon={isVisible ? faArrowUp : faArrowDown} className='toggle-nav-arrow' onClick={handleNavToggle} />
                 </div>
                 <div className="learning-paths-row">
                     This is learning paths row

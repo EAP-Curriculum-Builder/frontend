@@ -36,6 +36,17 @@
     @apply w-10 h-10 text-orange-400 hover:text-blue-500 cursor-pointer;
 }
 
+
+
+.control-nav-section {
+    @apply ml-3;
+}
+
+.toggle-nav-arrow {
+    @apply  w-5 h-5 text-gray-700 hover:text-black cursor-pointer;
+}
+
+
 .learning-paths-row {
     @apply flex flex-col ml-2 mt-5;
 }
