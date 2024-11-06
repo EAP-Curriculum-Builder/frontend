@@ -1,6 +1,7 @@
 "use client"
 
 import { useRouter, useSearchParams } from 'next/navigation';
+import { fetchExercisesAvailable } from '@/api/createLearning';
 import { Genre, Topic } from '@/types/appTypes';
 import { useState, useEffect } from 'react';
 
@@ -17,15 +18,20 @@ const createLearningPath = () => {
 
         if (genreParam && topicParam) {
             try {
-                setGenre(JSON.parse(decodeURIComponent(genreParam)));
-                setTopic(JSON.parse(decodeURIComponent(topicParam)));
-                console.log(genre);
-                console.log(topic);
+                const parsedGenre = JSON.parse(decodeURIComponent(genreParam));
+                const parsedTopic = JSON.parse(decodeURIComponent(topicParam));
+                setGenre(parsedGenre);
+                setTopic(parsedTopic);
+                fetchExercisesAvailable(parsedTopic.text_id);
+                
             } catch (error) {
                 console.error("Failed to parse query parameters", error);
             }
         }
+
     }, [searchParams]);
+
+    
 
     const selectedGenre = searchParams.get('genre');
     const selectedTopic = searchParams.get('topic');

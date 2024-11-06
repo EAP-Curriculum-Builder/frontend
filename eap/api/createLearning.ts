@@ -25,10 +25,39 @@ export async function fetchAssociatedTopics(genre:Genre): Promise<Topic[]>{
             body: JSON.stringify(genre)
         });
         const data = await response.json();
-        console.log(data);
         return data;
     } catch (error) {
         console.error("Error fetching the associated topics:", error);
         return [{id: 0, topic: '', theme: '', text_id: 0}];
+    }
+}
+
+
+interface ExerciseType {
+    id: number;
+    text_id: number;
+    exercise_type: string;
+};
+
+interface ExerciseTypes {
+    exerciseTypes: ExerciseType[];
+};
+
+export async function fetchExercisesAvailable(text_id:Number): Promise<ExerciseTypes[]>{
+    try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/create/exercises`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            credentials: 'include',
+            body: JSON.stringify({ "text_id": text_id })
+        });
+        const data = await response.json();
+        console.log(data);
+        return data;
+    } catch (error) {
+        console.error("Error fetching the types of exercises", error);
+        return [];
     }
 }
