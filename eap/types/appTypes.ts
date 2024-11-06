@@ -22,6 +22,7 @@ export interface Topic {
     id: number;
     topic: string;
     theme: string;
+    text_id: number;
 }
 
 export interface GroupedTopic {
@@ -30,6 +31,7 @@ export interface GroupedTopic {
         id: number;
         topic: string;
         theme: string;
+        text_id: number;
     }[];
 }
 

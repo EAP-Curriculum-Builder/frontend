@@ -14,13 +14,13 @@ const Themes: React.FC<ThemesProps> = ({ topics, handleSelectTopic }) => {
     const groupTopicsByTheme = (topics: Topic[]): GroupedTopic[] => {
         const grouped = topics.reduce<Record<string, GroupedTopic>>((acc, curr) => {
 
-            const { theme, id, topic } = curr;
+            const { theme, id, topic, text_id } = curr;
 
             if(!acc[theme]) {
                 acc[theme] = { theme, topics: [] };
             }
 
-            acc[theme].topics.push({ id, topic, theme });
+            acc[theme].topics.push({ id, topic, theme, text_id });
 
             return acc;
         }, {});

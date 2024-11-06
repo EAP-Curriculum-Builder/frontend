@@ -22,7 +22,7 @@ const PreparationBar: React.FC<PreparationBarProps> = ({ genreIsSelected, select
             )}
             {genreIsSelected && topicIsSelected && (
                 <div>
-                    <button className='start-planning-button' type='button' onClick={onStartLearning}>Let's go</button>
+                    <button className='start-planning-button' type='button' onClick={onStartLearning}>Go!</button>
                 </div>
             )}
         </div>

@@ -29,6 +29,6 @@ export async function fetchAssociatedTopics(genre:Genre): Promise<Topic[]>{
         return data;
     } catch (error) {
         console.error("Error fetching the associated topics:", error);
-        return [{id: 0, topic: '', theme: ''}];
+        return [{id: 0, topic: '', theme: '', text_id: 0}];
     }
 }
