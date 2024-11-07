@@ -88,3 +88,7 @@
     @apply flex items-center justify-center bg-teal-600 text-2xl text-white rounded-lg pl-3 pr-3
     h-16;
 }
+
+.start-planning-button {
+    @apply bg-orange-600 w-16 h-16 rounded-full text-white text-2xl
+}

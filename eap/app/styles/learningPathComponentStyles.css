@@ -1,0 +1,26 @@
+.learning-paths-row {
+    @apply 
+    text-2xl
+}
+
+.all-paths-container {
+    @apply flex flex-col
+}
+
+.learning-path-container {
+    @apply flex flex-row justify-between
+    bg-slate-200 m-3 p-3 rounded-xl shadow-lg
+}
+
+.the-exercise-link {
+    @apply flex flex-col
+    bg-orange-500
+    text-white
+    p-3 m-1 rounded-xl
+    text-2xl
+    hover:cursor-pointer
+}
+
+.exercise-steps {
+    @apply text-xs
+}

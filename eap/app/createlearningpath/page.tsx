@@ -7,6 +7,7 @@ import { useState, useEffect } from 'react';
 import { useUser } from '../context/UserContext';
 import { postNewLearningPath } from '@/api/createLearning';
 import { verifySession } from '@/api/auth';
+import { useLearningPath } from '../context/LearningPathContext';
 
 import Draggable from '../components/dragndrop/Draggable';
 import Droppable from '../components/dragndrop/Droppable';
@@ -29,7 +30,8 @@ interface LearningPath {
 const createLearningPath = () => {
 
     const router = useRouter();
-    const { user, setUser } = useUser();
+    const { user } = useUser();
+    const { setLearningPath } = useLearningPath();
 
     
     const searchParams = useSearchParams();
@@ -205,6 +207,7 @@ const createLearningPath = () => {
 
             const done = postNewLearningPath(learningPathDataToSend);
             console.log(done);
+            //setLearningPath(learningPathExercises);
             router.replace('/learningpath');
 
 

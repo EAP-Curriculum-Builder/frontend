@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import '../../styles/learningPathComponentStyles.css';
 
 interface ExerciseType {
     id: number; // the id of the exercise type
@@ -27,11 +28,13 @@ const LearningPathComponent: React.FC<LearningPathProps> = ({ allLearningPaths }
     }
 
     return(
-        <div>
+        <div className='all-paths-container'>
+            Your Learning Paths
             {allLearningPaths.map((learningPath, index) => (
                 <div className='learning-path-container' key={index}>
                     {learningPath.exercise_id_array.map((exercise:ExerciseType, ind:number) =>(
                         <div className='the-exercise-link' key={ind} onClick={() => handleStartExercise(exercise)}>
+                            <div className='exercise-steps'>Step {ind+1}</div>
                             <span>{exercise.exercise_type}</span>
                         </div>
                     ))}

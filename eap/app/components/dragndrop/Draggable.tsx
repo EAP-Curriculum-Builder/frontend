@@ -28,7 +28,10 @@ const Draggable: React.FC<DraggablesProps> = ({ id, onDragStart, onDelete, exerc
             <button className="delete-draggable-button" onClick={onDelete}>
                 X
             </button>
-            <span className='exercise-type-label'>{exerciseData.exercise_type}</span>
+            <div className='exercise-title'>
+                <span className='exercise-type-label'>{exerciseData.exercise_type}</span>
+            </div>
+            
         </div>
     )
 }

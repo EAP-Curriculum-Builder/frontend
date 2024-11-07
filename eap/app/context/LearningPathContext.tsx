@@ -2,12 +2,18 @@
 
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 
+interface ExerciseType {
+    id: number; // the id of the exercise type
+    text_id: number; // the associated text that the exercise will be carried out with
+    exercise_type: string; // the name for the type of exercise
+};
+
 interface LearningPath {
     user_id: string;
     topics_id: number;
     genre_id: number;
     text_id: number;
-    exercise_id_array: string; // JSON.stringify the ExerciseType[] array
+    exercise_id_array: ExerciseType; // JSON.stringify the ExerciseType[] array
 }
 
 interface LearningPathContextType {
