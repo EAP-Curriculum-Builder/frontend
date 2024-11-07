@@ -1,10 +1,10 @@
 "use client"
 
-const LearningPath = () => {
+const LearningPathPage = () => {
 
     return(
         <p>Welcome to your learning path</p>
     );
 }
 
-export default LearningPath;
+export default LearningPathPage;

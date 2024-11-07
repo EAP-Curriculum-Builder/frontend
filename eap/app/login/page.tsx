@@ -126,7 +126,8 @@ export default function LoginPage() {
         const result = await submitEncryptedLogin(encryptedData, token) as LoginResult;
         setUser({ username: result.username, role:result.role, uid:result.uid });
 
-        localStorage.setItem("isLoggedIn", "");
+        localStorage.setItem("user", JSON.stringify({ username: result.username, role:result.role, uid:result.uid }));
+        localStorage.setItem("isLoggedIn", ""); // This is being used to redirect user. This needs updating!
         redirect("/home");
     };
 

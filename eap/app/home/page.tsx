@@ -4,7 +4,9 @@ import { submitLogoutRequest } from '@/api/auth';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useUser } from '../context/UserContext';
-import { verifySession } from '@/api/auth';
+import { User } from '@/types/appTypes';
+import { fetchAllLearningPaths } from '@/api/accessLearning';
+import LearningPathComponent from '../components/learningPath/LearningPathComponent';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faImage, faIdCard, faBell, faArrowRight, faBezierCurve, faTrophy, faArrowUp, faArrowDown } from '@fortawesome/free-solid-svg-icons';
@@ -12,28 +14,52 @@ import { faImage, faIdCard, faBell, faArrowRight, faBezierCurve, faTrophy, faArr
 import Navbar from '../components/Navbar';
 import '../styles/homePageStyles.css';
 
+interface ExerciseType {
+    id: number; // the id of the exercise type
+    text_id: number; // the associated text that the exercise will be carried out with
+    exercise_type: string; // the name for the type of exercise
+};
+
+interface LearningPath {
+    user_id: string;
+    topics_id: number;
+    genre_id: number;
+    text_id: number;
+    exercise_id_array: ExerciseType[]; // JSON.stringify the ExerciseType[] array
+}
+
 
 const Home = () => {
 
     const router = useRouter();
-    const { user } = useUser();
+    const { user, setUser } = useUser();
+
+    const [allLearningPaths, setAllLearningPaths] = useState<LearningPath[]>([]);
 
     // Verify the user's session
     useEffect(() => {
-        const checkLoginStatus = async () => {
-            try {
-                const loggedInStatus = await verifySession();
-                if (loggedInStatus === 401) {
-                    router.replace('/login');
-                }
-            } catch (error) {
-                console.error("Error verifying session:", error);
-                router.replace('/login');
-            }
-        };
 
-        checkLoginStatus();
-    }, [router]);
+        const fetchData = async () => {
+            if (!user) {
+                const userJSON = localStorage.getItem("user");
+                const storedUser: User|null = userJSON ? JSON.parse(userJSON) : null;
+                setUser(storedUser);
+            }
+
+            if (user) {
+                console.log(user.uid);
+                try {
+                    const learningPathsData = await fetchAllLearningPaths(user.uid);
+                    setAllLearningPaths(learningPathsData);
+                } catch (error) {
+                    console.log("Error fetching learning path", error);
+                }
+            }
+        }
+        fetchData();
+        
+        
+    }, [fetchAllLearningPaths, user]);
 
     const logout = async () => {
         const result = await submitLogoutRequest();
@@ -129,7 +155,7 @@ const Home = () => {
                     <FontAwesomeIcon icon={isVisible ? faArrowUp : faArrowDown} className='toggle-nav-arrow' onClick={handleNavToggle} />
                 </div>
                 <div className="learning-paths-row">
-                    This is learning paths row
+                    <LearningPathComponent allLearningPaths={allLearningPaths}  />
                 </div>
             </div>
             

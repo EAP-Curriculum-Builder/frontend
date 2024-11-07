@@ -1,5 +1,14 @@
 
 /**
+ * For the user details
+ */
+export interface User {
+    username: string;
+    role: string;
+    uid: string;
+}
+
+/**
  * For the navbar
  */
 

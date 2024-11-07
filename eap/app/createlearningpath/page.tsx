@@ -2,10 +2,11 @@
 
 import { useRouter, useSearchParams } from 'next/navigation';
 import { fetchExercisesAvailable } from '@/api/createLearning';
-import { Genre, Topic } from '@/types/appTypes';
+import { Genre, Topic, User } from '@/types/appTypes';
 import { useState, useEffect } from 'react';
 import { useUser } from '../context/UserContext';
 import { postNewLearningPath } from '@/api/createLearning';
+import { verifySession } from '@/api/auth';
 
 import Draggable from '../components/dragndrop/Draggable';
 import Droppable from '../components/dragndrop/Droppable';
@@ -28,8 +29,9 @@ interface LearningPath {
 const createLearningPath = () => {
 
     const router = useRouter();
-    const { user } = useUser();
-    console.log("The user is:", user);
+    const { user, setUser } = useUser();
+
+    
     const searchParams = useSearchParams();
     const [genre, setGenre] = useState<Genre | null>(null);
     const [topic, setTopic] = useState<Topic | null>(null);
