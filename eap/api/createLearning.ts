@@ -39,7 +39,7 @@ interface ExerciseType {
     exercise_type: string;
 };
 
-export async function fetchExercisesAvailable(text_id:Number): Promise<ExerciseType[]>{
+export async function fetchExercisesAvailable(text_id: Number): Promise<ExerciseType[]>{
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/create/exercises`, {
             method: 'POST',
@@ -54,5 +54,38 @@ export async function fetchExercisesAvailable(text_id:Number): Promise<ExerciseT
     } catch (error) {
         console.error("Error fetching the types of exercises", error);
         return [];
+    }
+}
+
+interface LearningPath {
+    user_id: string;
+    topics_id: number;
+    genre_id: number;
+    text_id: number;
+    exercise_id_array: string; // JSON.stringify the ExerciseType[] array
+}
+
+export async function postNewLearningPath(learningPath: LearningPath): Promise<LearningPath> {
+    try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/create/learningpath`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            credentials: 'include',
+            body: JSON.stringify({ learningPath }),
+        });
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error("Error posting the learning path", error);
+        // Return an empty learning path
+        return {
+            user_id: '',
+            topics_id: 0,
+            genre_id: 0,
+            text_id: 0,
+            exercise_id_array: ''
+        };
     }
 }

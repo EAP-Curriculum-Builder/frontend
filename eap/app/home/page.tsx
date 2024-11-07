@@ -99,7 +99,7 @@ const Home = () => {
                             <div className="actions-items">
                                 <div className="action-item">
                                     <div className='font-icon'>
-                                        <FontAwesomeIcon icon={faArrowRight} className='use-app-item' />
+                                        <FontAwesomeIcon icon={faArrowRight} className='use-app-item' onClick={logout} />
                                     </div>
                                     <div className='action-info' onClick={logout}>
                                         Logout
