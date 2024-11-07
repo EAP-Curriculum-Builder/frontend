@@ -1,4 +1,15 @@
 
+.genre-themes-container {
+    @apply flex relative overflow-hidden w-screen h-full;
+}
+
+.genres-container {
+    @apply w-screen
+}
+
+.themes-container {
+    @apply w-screen absolute top-0 left-0
+}
 
 /* GENRES COMPONENT */
 .create-learning-container {
@@ -10,17 +21,70 @@
     border-gray-300 border-[1px]
     flex items-center justify-center
     overflow-hidden relative
-    shadow-xl hover:shadow-md cursor-pointer
+    shadow-xl hover:shadow-md cursor-pointer;
 }
 
 .select-a-genre-icon {
-    @apply w-12 h-12 md:w-16 md:h-16 lg:w-32 lg:h-32 object-cover text-orange-100
+    @apply w-12 h-12 md:w-16 md:h-16 lg:w-32 lg:h-32 object-cover text-orange-100;
 }
 
 .select-a-genre-selector-text {
-    @apply absolute md:text-2xl lg:text-3xl xl:text-4xl font-extralight
+    @apply absolute md:text-2xl lg:text-3xl xl:text-4xl font-extralight;
 }
 
 .genre-type {
-    @apply text-center mt-2 mb-6 p-6 lg:text-xl xl:text-3xl
+    @apply text-center mt-2 mb-6 p-6 lg:text-xl xl:text-3xl;
+}
+
+/* THEMES COMPONENT */
+.themes-internal-container {
+    @apply flex flex-row gap-4 mt-4;
+}
+
+.theme-bar {
+    @apply flex flex-col gap-4 items-center w-full;
+}
+
+.theme-display {
+    @apply font-extrabold text-4xl text-orange-400;
+}
+
+.topics-display {
+    @apply bg-slate-200 w-[100%] text-center justify-items-center rounded-xl p-4 shadow-lg
+}
+
+.topic-display {
+    @apply text-2xl text-white mt-3 mb-3 bg-teal-500 w-[100%] p-3 rounded-xl shadow-xl
+    cursor-pointer hover:bg-teal-400 active:bg-teal-500
+    flex items-center justify-center
+    overflow-hidden relative
+    h-32
+}
+
+.topic-icon {
+    @apply object-cover text-slate-100 w-24 h-24
+}
+
+.topic-text {
+    @apply absolute text-2xl font-bold text-white font-extralight
+}
+
+
+/* PREPARATION BAR */
+.preparation-bar-container {
+    @apply fixed bottom-0 min-w-full bg-slate-100 p-4 shadow-md h-20 flex flex-row items-center;
+}
+
+.bulletins-container {
+    @apply w-full flex flex-row
+}
+
+.selected-genre-bulletin {
+    @apply flex items-center justify-center bg-orange-600 text-2xl text-white rounded-lg pl-3 pr-3
+    h-16;
+}
+
+.selected-topic-bulletin {
+    @apply flex items-center justify-center bg-teal-600 text-2xl text-white rounded-lg pl-3 pr-3
+    h-16;
 }

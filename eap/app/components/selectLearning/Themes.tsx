@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react';
 
 import { ThemesProps, Topic, GroupedTopic } from '@/types/appTypes';
+import { faGlobe, faPenFancy, faEarthAmericas, faFlask, faBusinessTime, faKeyboard, faSolarPanel, faVial, faSatellite } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const Themes: React.FC<ThemesProps> = ({ topics, handleSelectTopic }) => {
 
     const [groupedTopics, setGroupedTopics] = useState<GroupedTopic[]>([]);
+    const icons = [faGlobe, faPenFancy, faEarthAmericas, faFlask, faBusinessTime, faKeyboard, faSolarPanel, faVial, faSatellite];
 
     useEffect(() => {
         const groupedByTheme = groupTopicsByTheme(topics);
@@ -33,16 +36,17 @@ const Themes: React.FC<ThemesProps> = ({ topics, handleSelectTopic }) => {
     }
 
     return(
-        <div>
+        <div className='themes-internal-container'>
             {groupedTopics.map((groupedTopic, index) => (
                 <div className='theme-bar' key={index}>
                     <div className='theme-display'>
                         {groupedTopic.theme}
                     </div>
                     <div className='topics-display'>
-                        {groupedTopic.topics.map((atopic) =>(
+                        {groupedTopic.topics.map((atopic, index) =>(
                             <div className='topic-display' key={atopic.id} onClick={() => handleTopicClick(atopic)}>
-                                {atopic.topic}
+                                
+                                <span className='topic-text'> {atopic.topic}</span>
                             </div>
                         ))}
                     </div>

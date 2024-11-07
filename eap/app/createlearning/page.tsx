@@ -47,6 +47,7 @@ const CreateLearning = () => {
             setTopics(result);
             setGenreIsSelected(true);
             setSelectedGenre(genre);
+            setShowThemes(true);
         } catch (error) {
             console.error("Error fetching associated topics:", error);
         }
@@ -63,18 +64,27 @@ const CreateLearning = () => {
         router.push(`/createlearningpath?genre=${genreParam}&topic=${topicParam}`);
      }
 
+    // State to handle styles animation
+    const [showThemes, setShowThemes] = useState<boolean>(false);
+
     return (
         <div>
             <div>
                 <Navbar topMessage='Create Your Learning Path' page='createLearning' />
             </div>
-            <div>
-                <Genres learningGenres={learningGenres} handleFetchTopics={handleFetchTopics} />
+            <div className='genre-themes-container'>
+                <div className={`genres-container transition-transform duration-500 delay-500 ${
+                    showThemes ? '-translate-x-full' : 'translate-x-0'
+                }`}>
+                    <Genres learningGenres={learningGenres} handleFetchTopics={handleFetchTopics} />
+                </div>
+                <div className={`themes-container transition-transform duration-500 delay-700 ${
+                    showThemes ? 'translate-x-0' : 'translate-x-full'
+                }`}>
+                    <Themes topics={topics} handleSelectTopic={handleSelectTopic} />
+                </div>
             </div>
-            <div>
-                <Themes topics={topics} handleSelectTopic={handleSelectTopic} />
-            </div>
-            <div>
+            <div className='preparation-bar-container'>
                 <PreparationBar genreIsSelected={genreIsSelected} selectedGenre={selectedGenre} topicIsSelected={topicIsSelected} selectedTopic={selectedTopic} handleStartLearning={handleStartLearning}  />
             </div>
         </div>
