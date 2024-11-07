@@ -1,4 +1,5 @@
 import React from 'react';
+import '../../styles/dragndropStyles.css';
 
 interface DraggablesProps {
     id: string;

@@ -39,11 +39,7 @@ interface ExerciseType {
     exercise_type: string;
 };
 
-interface ExerciseTypes {
-    exerciseTypes: ExerciseType[];
-};
-
-export async function fetchExercisesAvailable(text_id:Number): Promise<ExerciseTypes[]>{
+export async function fetchExercisesAvailable(text_id:Number): Promise<ExerciseType[]>{
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/create/exercises`, {
             method: 'POST',
@@ -54,7 +50,6 @@ export async function fetchExercisesAvailable(text_id:Number): Promise<ExerciseT
             body: JSON.stringify({ "text_id": text_id })
         });
         const data = await response.json();
-        console.log(data);
         return data;
     } catch (error) {
         console.error("Error fetching the types of exercises", error);
