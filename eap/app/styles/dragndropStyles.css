@@ -1,10 +1,23 @@
 
-.draggable {
-    @apply h-20 w-20 m-10 bg-sky-500 rounded-lg;
+.scrollable-container {
+    @apply overflow-x-auto bg-gray-200 mt-4;
+  }
+  
+  .draggables-container {
+    @apply flex flex-row w-[200vw];
+  }
+  
+  .draggable {
+    @apply h-[200px] w-[200px] m-1 bg-sky-500 rounded-lg text-xl;
+  }
+  
+
+.droppables-container {
+    @apply flex flex-row
 }
 
 .droppable {
-    @apply w-full h-60 bg-slate-200 rounded-lg
+    @apply w-[210px] h-[210px] m-1 bg-slate-200 rounded-lg
 }
 
 .drag-over-unsafe {

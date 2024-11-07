@@ -7,6 +7,7 @@ import { useState, useEffect } from 'react';
 
 import Draggable from '../components/dragndrop/Draggable';
 import Droppable from '../components/dragndrop/Droppable';
+import Navbar from '../components/Navbar';
 
 interface ExerciseType {
     id: number;
@@ -21,6 +22,10 @@ const createLearningPath = () => {
     const [genre, setGenre] = useState<Genre | null>(null);
     const [topic, setTopic] = useState<Topic | null>(null);
     const [exercises, setExercises] = useState<ExerciseType[] | null>(null);
+
+    // Data handling for creating exercises.
+    const [learningPathExercises, setLearningPathExercises] = useState<ExerciseType[] | null>(null);
+
 
     useEffect(() => {
         const genreParam = searchParams.get('genre');
@@ -56,10 +61,14 @@ const createLearningPath = () => {
     const droppableIds = ["drop-1", "drop-2", "drop-3", "drop-4", "drop-5"];
 
 
-    const handleOnDragStart = (e: React.DragEvent<HTMLDivElement>, id: string) => {
+    const handleOnDragStart = (e: React.DragEvent<HTMLDivElement>, id: string, exerciseData: ExerciseType) => {
         console.log("What is going on?");
         const target = e.target as HTMLDivElement;
         e.dataTransfer.setData('targetId', id);
+        
+        // Set exercises data to transfer
+        e.dataTransfer.setData('exerciseData', JSON.stringify(exerciseData));
+
         // Passing the parent node classname allows us to track
         // whether the draggable is coming OUT of a droppable or not
         e.dataTransfer.setData('targetParentClass', (target.parentNode as HTMLDivElement)?.className);
@@ -79,8 +88,10 @@ const createLearningPath = () => {
             const id = e.dataTransfer.getData('targetId');
             const draggable = document.getElementById(id);
             const droppable = document.getElementById(droppableId);
-            console.log(draggable);
-            console.log(droppable);
+
+            // Get the exercise data
+            const receivedExerciseData = JSON.parse(e.dataTransfer.getData('exerciseData'));
+            console.log("Received the following data", receivedExerciseData);
 
             /**
              * REMOVE ORIGINAL ELEMENT FROM ITS PARENT IF IT WAS IN A DROPPABLE
@@ -111,21 +122,13 @@ const createLearningPath = () => {
                 if (!(clonedElement.childNodes[0] as HTMLDivElement).classList.contains('')) {
                     const deleteButton = document.createElement('button');
                     deleteButton.innerText = 'X';
-                    deleteButton.className = 'delete-draggable-button'
-                    //deleteButton.onclick = function(e) { deleteThisElement(e) };
-                } else {
-                    //
+                    deleteButton.className = 'delete-draggable-button';
                 }
 
                 setDraggables((prevDraggables) => [...prevDraggables, clonedElement]);
                 droppable?.append(clonedElement);
-
-            }
-
-            
-            
+            } 
         }
-
     }
 
     const handleOnDelete = () => {
@@ -134,23 +137,36 @@ const createLearningPath = () => {
 
     return (
         <div>
-            {exercises && exercises.length > 0 && (
-                    <Draggable 
-                        id={exercises[0].id.toString()}
-                        onDragStart={(e) => handleOnDragStart(e, exercises[0].id.toString())}
-                        onDelete={handleOnDelete}
-                        exerciseType={exercises[0].exercise_type}
-                    />
-                )}
-            <Droppable
-                id={droppableIds[0]}
-                onDrop={(e) => handleDrop(e, droppableIds[0])}
-            >
-                
-                
-                
+            <div>
+                <Navbar topMessage='Create Your Learning Path' page='createLearningPath' />
+            </div>
+            <div className='scrollable-container'>
+                <div className='draggables-container'>
+                    {exercises && exercises.length > 0 && exercises.map((exercise, index) => (
+                        <Draggable 
+                            key={index}
+                            id={exercise.id.toString()}
+                            onDragStart={(e) => handleOnDragStart(e, exercise.id.toString(), exercise)}
+                            onDelete={handleOnDelete}
+                            exerciseData={exercise}
+                        />
+                            
+                    ))}
+                </div>
+            </div>
+            
 
-            </Droppable>
+            <div className='droppables-container'>
+                {droppableIds.map((droppableId, index) => (
+                    <Droppable
+                        key={index}
+                        id={droppableId}
+                        onDrop={(e) => handleDrop(e, droppableId)}
+                    >
+                        <></>
+                    </Droppable>
+                ))}
+            </div>
         </div>
     );
 };
